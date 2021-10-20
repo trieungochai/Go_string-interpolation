@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -13,8 +14,9 @@ func main() {
 	reader = bufio.NewReader(os.Stdin)
 
 	userInput := readString("What is your name?")
+	age := readInt("How old are you?")
 
-	fmt.Println("Your name is", userInput)
+	fmt.Println("Your name is", userInput, "and you are", age, "years old!")
 }
 
 func prompt() {
@@ -28,4 +30,17 @@ func readString(s string) string {
 	userInput = strings.Replace(userInput, "\n", "", -1)
 
 	return userInput
+}
+
+func readInt(s string) int {
+	fmt.Println(s)
+	prompt()
+	userInput, _ := reader.ReadString('\n')
+	userInput = strings.Replace(userInput, "\n", "", -1)
+
+	num, err := strconv.Atoi(userInput)
+	if err != nil {
+		fmt.Println("Please enter a whole number!")
+	}
+	return num
 }
