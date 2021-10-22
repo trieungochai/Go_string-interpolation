@@ -13,10 +13,11 @@ var reader *bufio.Reader
 func main() {
 	reader = bufio.NewReader(os.Stdin)
 
-	userInput := readString("What is your name?")
+	userName := readString("What is your name?")
 	age := readInt("How old are you?")
 
-	fmt.Println("Your name is", userInput, "and you are", age, "years old!")
+	// fmt.Println("Your name is "+userName+", and you are", age, "years old!")
+	fmt.Println(fmt.Sprintf("Your name is %s and you are %d years old!", userName, age))
 }
 
 func prompt() {
@@ -24,23 +25,32 @@ func prompt() {
 }
 
 func readString(s string) string {
-	fmt.Println(s)
-	prompt()
-	userInput, _ := reader.ReadString('\n')
-	userInput = strings.Replace(userInput, "\n", "", -1)
+	for {
+		fmt.Println(s)
+		prompt()
+		userInput, _ := reader.ReadString('\n')
+		userInput = strings.Replace(userInput, "\n", "", -1)
 
-	return userInput
+		if userInput != "" {
+			return userInput
+		} else {
+			fmt.Println("Please enter a value!")
+		}
+	}
 }
 
 func readInt(s string) int {
-	fmt.Println(s)
-	prompt()
-	userInput, _ := reader.ReadString('\n')
-	userInput = strings.Replace(userInput, "\n", "", -1)
+	for {
+		fmt.Println(s)
+		prompt()
+		userInput, _ := reader.ReadString('\n')
+		userInput = strings.Replace(userInput, "\n", "", -1)
 
-	num, err := strconv.Atoi(userInput)
-	if err != nil {
-		fmt.Println("Please enter a whole number!")
+		num, err := strconv.Atoi(userInput)
+		if err != nil {
+			fmt.Println("Please enter a whole number!")
+		} else {
+			return num
+		}
 	}
-	return num
 }
